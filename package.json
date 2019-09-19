@@ -1,0 +1,17 @@
+{
+  "name": "pgstream",
+  "version": "1.0.0",
+  "description": "Trying out postgres for streaming",
+  "main": "index.js",
+  "scripts": {
+    "producer": "node producer.js",
+    "consumer": "node consumer.js",
+    "migrate": "node migrate.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^7.12.0",
+    "queue": "./queue"
+  }
+}

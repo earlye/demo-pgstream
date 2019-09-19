@@ -1,0 +1,37 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:9.5.2
+    environment:
+      - POSTGRES_USER=delta
+      - POSTGRES_PASSWORD=delta
+      - POSTGRES_DB=delta # can I help ya help ya help ya?
+    networks:
+      - no_staging_conflict
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
+        mode: host
+
+  schemify:
+    image: schemify:latest
+    links:
+      - db
+    networks:
+      - no_staging_conflict
+    volumes:
+      - ./schema:/schema:ro
+    command: schemify -H db -p 5432 -U delta -P delta -d delta -s /schema      
+
+volumes:
+  node_modules:
+
+networks:
+  no_staging_conflict:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.150.0.0/24
